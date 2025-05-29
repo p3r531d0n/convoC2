@@ -5,9 +5,7 @@ import (
 	"fmt"
 	"os"
 	"regexp"
-
 	// import the agent package
-	"github.com/p3r531d0n/convoC2/pkg/agent"
 )
 
 var (

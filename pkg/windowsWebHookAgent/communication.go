@@ -1,4 +1,4 @@
-package agent
+package windowsWebHookAgent
 
 import (
 	"bytes"
@@ -27,7 +27,7 @@ type NotifyMsg struct {
 func (agent *Agent) notifyServer(webhookURL string, serverURL string) error {
 
 	notifyMsg := NotifyMsg{
-		Random:   random(), 
+		Random:   random(),
 		AgentID:  agent.agentID,
 		Username: agent.username,
 	}

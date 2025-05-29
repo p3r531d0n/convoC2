@@ -1,4 +1,4 @@
-package agent
+package windowsWebHookAgent
 
 import (
 	"crypto/md5"
