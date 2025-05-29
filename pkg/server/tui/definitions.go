@@ -27,9 +27,10 @@ const listHeight = 14
 const listDefaultWidth = 300
 
 const (
-	AgentListScreen = 0
-	AgentScreen     = 1
-	AgentCmdScreen  = 2
+	AgentListScreen        = 0
+	AgentScreen            = 1
+	AgentCmdScreen         = 2
+	ManualAgentInputScreen = 3 // new screen
 )
 
 var (

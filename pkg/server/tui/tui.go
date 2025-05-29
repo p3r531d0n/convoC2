@@ -38,22 +38,48 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 		switch msg.String() {
 		case "ctrl+c":
 			return m, tea.Quit
-
-		case "enter":
+		case "a":
 			if m.screen == AgentListScreen {
+				// Switch to input screen for manual agent entry (you'll define this)
+				m.screen = ManualAgentInputScreen
+				m.textInput.Placeholder = "Enter 'username agentID'"
+				m.textInput.Reset()
+			}
+		case "enter":
+			switch m.screen {
+			case AgentListScreen:
 				agentsNum := len(m.list.Items())
 				if agentsNum > 0 {
 					selectedAgentIndex := m.list.Index()
 					m.selectedAgent = &m.agents[selectedAgentIndex]
 					m.screen = AgentScreen
 				}
-			} else if m.screen == AgentScreen {
+			case AgentScreen:
 				enteredCommand := m.textInput.Value()
 				m.handleRegularCommands(enteredCommand)
 				m.textInput.Reset()
-			} else if m.screen == AgentCmdScreen {
+			case AgentCmdScreen:
 				enteredCommand := m.textInput.Value()
 				m.handleCmdSession(enteredCommand)
+				m.textInput.Reset()
+			case ManualAgentInputScreen:
+				input := m.textInput.Value()
+				parts := strings.Fields(input)
+				if len(parts) != 2 {
+					// Show error or ignore
+					break
+				}
+				username, agentID := parts[0], parts[1]
+				newAgent := server.Agent{
+					Username: username,
+					AgentId:  agentID,
+				}
+				if !contains(m.agents, newAgent) {
+					m.agents = append(m.agents, newAgent)
+					m.list.InsertItem(len(m.agents)-1, item(fmt.Sprintf("%s (%s)", newAgent.Username, newAgent.AgentId)))
+				}
+				m.screen = AgentListScreen
+				m.textInput.Placeholder = "Type ? for a list of commands"
 				m.textInput.Reset()
 			}
 		}
@@ -77,6 +103,8 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 func (m model) View() string {
 	if m.screen == AgentListScreen {
 		return bannerStyle.Render(banner) + "\n" + m.list.View()
+	} else if m.screen == ManualAgentInputScreen {
+		return "Enter agent in the format: username agentID\n" + m.textInput.View()
 	} else if m.screen == AgentScreen || m.screen == AgentCmdScreen {
 		historyView := ""
 		if m.screen == AgentCmdScreen {
