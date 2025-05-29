@@ -48,7 +48,22 @@ func main() {
 	// if -f, --find-logfiles is set, find and print the log files path
 	if flag.NArg() > 0 && flag.Arg(0) == "find-logfiles" {
 		logDir, err := agent.findLogDir()
+		if err != nil {
+			fmt.Fprintln(os.Stderr, "Error finding log directory:", err)
+			os.Exit(1)
+		}
+		fmt.Println("Log directory:", logDir)
 		logFiles, err := agent.findLogFiles(logDir)
+		if err != nil {
+			fmt.Fprintln(os.Stderr, "Error finding log files:", err)
+			os.Exit(1)
+		}
+		fmt.Println("Log files:")
+		for _, file := range logFiles {
+			fmt.Println(" -", file)
+		}
+		os.Exit(0)
+	}
 
 	err := agent.Start(verbose, serverURL, timeout, webhookURL, regexp.MustCompile(commandRegex))
 	if err != nil {

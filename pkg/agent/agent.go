@@ -35,7 +35,7 @@ func Start(verbose bool, serverURL string, timeout int, webhookURL string, comma
 	}
 
 	// Start with finding the Teams log directory
-	logDirPath, err := findLogDir()
+	logDirPath, err := FindLogDir()
 	if err != nil {
 		return err
 	}
@@ -70,7 +70,7 @@ func Start(verbose bool, serverURL string, timeout int, webhookURL string, comma
 		var logFilePath string
 
 		// Get the list of log files (may change during time)
-		logFiles, err := findLogFiles(logDirPath)
+		logFiles, err := FindLogFiles(logDirPath)
 		if err != nil {
 			return err
 		}

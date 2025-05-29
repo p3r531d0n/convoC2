@@ -8,7 +8,7 @@ import (
 	"strings"
 )
 
-func findLogDir() (path string, err error) {
+func FindLogDir() (path string, err error) {
 
 	username, err := getCurrentUser()
 	if err != nil {
@@ -42,7 +42,7 @@ func findLogDir() (path string, err error) {
 	return path, nil
 }
 
-func findLogFiles(logDirPath string) ([]string, error) {
+func FindLogFiles(logDirPath string) ([]string, error) {
 	var logFiles []string
 
 	err := filepath.WalkDir(logDirPath, func(currentPath string, d fs.DirEntry, walkErr error) error {

@@ -1,4 +1,4 @@
-module github.com/cxnturi0n/convoC2
+module github.com/p3r531d0n/convoC2
 
 go 1.22.4
 
