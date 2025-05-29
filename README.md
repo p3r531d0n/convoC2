@@ -109,3 +109,4 @@ Short term todos are:
 - Message AES encryption
 - Keepalive to detect when agent is dead
 - Powershell version of the Agent
+- Automated way to fetch Ids and Auth Tokens

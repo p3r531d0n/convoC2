@@ -6,8 +6,8 @@ import (
 	"os"
 
 	tea "github.com/charmbracelet/bubbletea"
-	"github.com/cxnturi0n/convoC2/pkg/server"
-	"github.com/cxnturi0n/convoC2/pkg/server/tui"
+	"github.com/p3r531d0n/convoC2/pkg/server"
+	"github.com/p3r531d0n/convoC2/pkg/server/tui"
 )
 
 func init() {

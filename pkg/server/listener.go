@@ -7,7 +7,6 @@ import (
 	"net/http"
 	"os"
 	"strings"
-
 )
 
 var BindIp string
@@ -28,8 +27,7 @@ type Agent struct {
 	CommandHistoryCmd []string
 }
 
-
-func StartHttpListener(agentChan chan Agent, commandResponsesChan chan CommandResponse){
+func StartHttpListener(agentChan chan Agent, commandResponsesChan chan CommandResponse) {
 	http.HandleFunc("/hello/", func(w http.ResponseWriter, r *http.Request) {
 		base64EncodedAgent := strings.TrimPrefix(r.URL.Path, "/hello/")
 		decoded, _ := base64.StdEncoding.DecodeString(base64EncodedAgent)
@@ -48,8 +46,8 @@ func StartHttpListener(agentChan chan Agent, commandResponsesChan chan CommandRe
 		commandResponsesChan <- response
 	})
 
-	err := http.ListenAndServe(BindIp+":80", nil) 
-	if err != nil{
+	err := http.ListenAndServe(BindIp+":80", nil)
+	if err != nil {
 		fmt.Fprint(os.Stderr, err)
 		os.Exit(1)
 	}

@@ -3,7 +3,7 @@ package tui
 import (
 	"strings"
 
-	"github.com/cxnturi0n/convoC2/pkg/server"
+	"github.com/p3r531d0n/convoC2/pkg/server"
 )
 
 func (m *model) handleRegularCommands(enteredCommand string) {

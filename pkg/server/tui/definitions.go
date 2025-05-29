@@ -9,7 +9,7 @@ import (
 	"github.com/charmbracelet/bubbles/textinput"
 	tea "github.com/charmbracelet/bubbletea"
 	"github.com/charmbracelet/lipgloss"
-	"github.com/cxnturi0n/convoC2/pkg/server"
+	"github.com/p3r531d0n/convoC2/pkg/server"
 )
 
 const banner = `

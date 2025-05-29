@@ -1,4 +1,4 @@
-package findAgent
+package windowsOneWayAgent
 
 import (
 	"fmt"
@@ -64,38 +64,4 @@ func FindLogFiles(logDirPath string) ([]string, error) {
 	}
 
 	return logFiles, nil
-}
-
-func MacFindLogDir() (path string, err error) {
-
-	username, err := getCurrentUser()
-	if err != nil {
-		return "", fmt.Errorf("failed to get current user: %w", err)
-	}
-
-	baseDir := filepath.Join("/Users/", username)
-	targetDir := `https_teams.microsoft.com_0.indexeddb.leveldb`
-
-	err = filepath.WalkDir(baseDir, func(currentPath string, d fs.DirEntry, walkErr error) error {
-		if walkErr != nil {
-			if os.IsPermission(walkErr) {
-				return nil // Skip directories where access is denied
-			}
-			return fmt.Errorf("error accessing directory %s: %w", currentPath, walkErr)
-		}
-
-		if d.IsDir() && d.Name() == targetDir {
-			path = currentPath
-			return filepath.SkipDir
-		}
-		return nil
-	})
-
-	if err != nil {
-		return "", fmt.Errorf("failed to walk the base directory %s: %w", baseDir, err)
-	}
-	if path == "" {
-		return "", fmt.Errorf("log directory not found in directory %s", baseDir)
-	}
-	return path, nil
 }
