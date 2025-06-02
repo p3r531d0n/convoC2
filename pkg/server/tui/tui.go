@@ -2,6 +2,7 @@ package tui
 
 import (
 	"fmt"
+	"log"
 	"strings"
 
 	tea "github.com/charmbracelet/bubbletea"
@@ -42,6 +43,7 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 			if m.screen == AgentListScreen {
 				// Switch to input screen for manual agent entry (you'll define this)
 				m.screen = ManualAgentInputScreen
+				log.Println("running case a")
 				m.textInput.Placeholder = "Enter 'username agentID'"
 				m.textInput.Reset()
 			}

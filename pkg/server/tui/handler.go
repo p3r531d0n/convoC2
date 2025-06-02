@@ -128,6 +128,7 @@ func (m *model) handleAddCommand(enteredCommand string) {
 	if enteredCommand == "back" {
 		m.screen = AgentListScreen
 		m.textInput.Prompt = promptStyle.Render(">> ")
+		m.textInput.Placeholder = "Enter 'username agentID'"
 		m.textInput.Reset()
 	}
 
