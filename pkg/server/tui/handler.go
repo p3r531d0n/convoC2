@@ -1,6 +1,7 @@
 package tui
 
 import (
+	"fmt"
 	"strings"
 
 	"github.com/p3r531d0n/convoC2/pkg/server"
@@ -137,6 +138,9 @@ func (m *model) handleAddCommand(enteredCommand string) {
 		m.textInput.Placeholder = "Enter 'username agentID'"
 		m.textInput.Reset()
 	}
+
+	// output a print with the parts to the command line stdout
+	fmt.Printf("parts: %+v\n", parts)
 
 	username := parts[0]
 	agentID := parts[1]
