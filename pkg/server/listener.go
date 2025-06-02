@@ -25,6 +25,7 @@ type Agent struct {
 	AuthToken         string
 	CommandHistory    []string
 	CommandHistoryCmd []string
+	AgentType         string
 }
 
 func StartHttpListener(agentChan chan Agent, commandResponsesChan chan CommandResponse) {
@@ -35,6 +36,7 @@ func StartHttpListener(agentChan chan Agent, commandResponsesChan chan CommandRe
 		var agent Agent
 		_ = json.Unmarshal(decoded, &agent)
 		agentChan <- agent
+		// might need to add an automatic add to agent type here
 	})
 
 	http.HandleFunc("/command/", func(w http.ResponseWriter, r *http.Request) {
@@ -44,6 +46,7 @@ func StartHttpListener(agentChan chan Agent, commandResponsesChan chan CommandRe
 		var response CommandResponse
 		_ = json.Unmarshal(decoded, &response)
 		commandResponsesChan <- response
+		// might need to output commands to logs for testing
 	})
 
 	err := http.ListenAndServe(BindIp+":80", nil)
@@ -51,4 +54,18 @@ func StartHttpListener(agentChan chan Agent, commandResponsesChan chan CommandRe
 		fmt.Fprint(os.Stderr, err)
 		os.Exit(1)
 	}
+}
+
+func ManualAgentAdd(agentChan chan Agent, agentId string, username string) {
+	agent := Agent{
+		AgentId:           agentId,
+		Username:          username,
+		ChatUrl:           "",
+		AuthToken:         "",
+		CommandHistory:    []string{},
+		CommandHistoryCmd: []string{},
+		AgentType:         "manual",
+	}
+
+	agentChan <- agent
 }

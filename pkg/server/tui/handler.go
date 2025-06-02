@@ -121,3 +121,26 @@ func (m *model) handleCmdSession(enteredCommand string) {
 		m.selectedAgent.CommandHistoryCmd = append(m.selectedAgent.CommandHistoryCmd, successStyle.Render(output))
 	}
 }
+
+// this is too similar to handleCmdSession, but it is used for the add command
+func (m *model) handleAddCommand(enteredCommand string) {
+	if enteredCommand == "back" {
+		m.screen = AgentListScreen
+		m.textInput.Prompt = promptStyle.Render(">> ")
+		m.textInput.Reset()
+	}
+
+	parts := strings.Split(enteredCommand, " ")
+	if len(parts) != 2 {
+		m.screen = AgentCmdScreen
+		m.textInput.Prompt = agentPromptStyle.Render(" >> ")
+		m.textInput.Placeholder = "Enter 'username agentID'"
+		m.textInput.Reset()
+	}
+
+	username := parts[0]
+	agentID := parts[1]
+
+	// use the listender.go files ManualAgentAdd function to add the agent
+	server.ManualAgentAdd(m.agentChan, agentID, username)
+}
